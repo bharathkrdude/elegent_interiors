@@ -34,11 +34,12 @@ class _EnquiryFormState extends State<EnquiryForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'We\'d love to hear from you!',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red.shade800),
-                  textAlign: TextAlign.center,
-                ),
+                // Text(
+                //   'We\'d love to hear from you!',
+                //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red.shade800),
+                //   textAlign: TextAlign.center,
+                // ),
+                Image.asset("assets/images/elegant-logo-removebg-preview.png"),
                 SizedBox(height: 24),
                 CustomTextField(
                   label: 'First Name',
@@ -112,7 +113,7 @@ class _EnquiryFormState extends State<EnquiryForm> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Thank You!'),
+            title: const Text('Thank You!'),
             content: Text('Your enquiry has been submitted successfully. We\'ll get back to you soon.'),
             actions: [
               TextButton(
