@@ -1,165 +1,62 @@
+import 'package:elegant_interiors/core/color.dart';
+import 'package:elegant_interiors/screens/enquiry_details_page/enquiry_details_screen.dart';
+import 'package:elegant_interiors/screens/leads/enquiry_details.dart';
+import 'package:elegant_interiors/screens/leads/widgets/customer_card_widget.dart';
 import 'package:flutter/material.dart';
 
 class LeadsPage extends StatelessWidget {
-   LeadsPage({super.key});
- final List<String> items = List.generate(10, (index) => 'Customer $index');
-  @override
-  Widget build(BuildContext context) {
-    return  Scaffold(
-body:ListView.builder(
-        itemCount: enquiries.length,
-        itemBuilder: (context, index) {
-          final enquiry = enquiries[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(16.0),
-                title: Text(
-                  enquiry.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 8),
-                    Text(
-                      enquiry.email,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      enquiry.enquiry,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[800],
-                      ),
-                    ),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.call, color: Colors.green),
-                  onPressed: () {
-                    // Add your call logic here
-                  },
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-  final List<CustomerEnquiry> enquiries = [
-    CustomerEnquiry(
-      name: "John Doe",
-      email: "johndoe@example.com",
-      enquiry: "I need more information about your services.",
-    ),
-    CustomerEnquiry(
-      name: "Jane Smith",
-      email: "janesmith@example.com",
-      enquiry: "Could you provide a quote for interior design?",
-    ),
-    // Add more customer data as needed
-  ];
-
-
-
-class CustomerEnquiry {
-  final String name;
-  final String email;
-  final String enquiry;
-
-  CustomerEnquiry({
-    required this.name,
-    required this.email,
-    required this.enquiry,
-  });
-}
-
-class EnquiryListPage extends StatelessWidget {
-  final List<CustomerEnquiry> enquiries = [
-    CustomerEnquiry(
-      name: "John Doe",
-      email: "johndoe@example.com",
-      enquiry: "I need more information about your services.",
-    ),
-    CustomerEnquiry(
-      name: "Jane Smith",
-      email: "janesmith@example.com",
-      enquiry: "Could you provide a quote for interior design?",
-    ),
-    // Add more customer data as needed
+  final List<Map<String, String>> customers = [
+    {
+      "name": "Joseph Francis",
+      "address": "Sk Apartment Puthiyakavu",
+      "phoneNumber": "123-456-7890",
+    },
+    {
+      "name": "Emma Watson",
+      "address": "123 Elm Street",
+      "phoneNumber": "987-654-3210",
+    },
+    // Add more customer details as needed
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColorWhite,
       appBar: AppBar(
-        title: Text("Customer Enquiries"),
-        backgroundColor: Colors.deepPurple,
+        title: const Text('Leads Page'),
       ),
       body: ListView.builder(
-        itemCount: enquiries.length,
+        itemCount: customers.length,
         itemBuilder: (context, index) {
-          final enquiry = enquiries[index];
+          final customer = customers[index];
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(16.0),
-                title: Text(
-                  enquiry.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 8),
-                    Text(
-                      enquiry.email,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      enquiry.enquiry,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[800],
-                      ),
-                    ),
-                  ],
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.call, color: Colors.green),
-                  onPressed: () {
-                    // Add your call logic here
-                  },
-                ),
-              ),
+            padding: const EdgeInsets.all(3.0),
+            child: CustomerCardWidget(
+              name: customer['name']!,
+              address: customer['address']!,
+              phoneNumber: customer['phoneNumber']!,
+              onCallPressed: () {},
+              onCardTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => EnquiryDetailsPage(
+                            name: customer['name']!,
+                            email: customer['address']!,
+                            phone: '+1 234 567 8900',
+                            address: '123 Main St, City, Country',
+                            enquiryAbout: 'Kitchen Design',
+                            foundThrough: 'Google Search',
+                            enquiryDate: DateTime.now(),
+                            onEdit: () {
+                              // Handle edit action
+                            },
+                            onContact: () {
+                              // Handle contact action
+                            },
+                          )),
+                );
+              },
             ),
           );
         },

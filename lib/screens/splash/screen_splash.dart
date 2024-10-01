@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:elegant_interiors/core/color.dart';
-import 'package:elegant_interiors/screens/bottomNavigation/bottomnavigation_widget.dart';
+import 'package:elegant_interiors/screens/bottom_navigation/bottomnavigation_widget.dart';
 import 'package:elegant_interiors/screens/login/screen_login.dart';
 import 'package:elegant_interiors/screens/temp.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (token != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => BottomNavigationWidget(), // Go to TempPage if token exists
+          builder: (context) => const BottomNavigationWidget(), // Go to TempPage if token exists
         ),
       );
     } else {

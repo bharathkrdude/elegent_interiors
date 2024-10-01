@@ -1,5 +1,6 @@
 import 'package:elegant_interiors/screens/enquiry_form.dart';
 import 'package:elegant_interiors/screens/leads/screen_leads.dart';
+import 'package:elegant_interiors/screens/quotation/quotation_screen.dart';
 import 'package:elegant_interiors/screens/temp.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   final List<Widget> _screens = [
     EnquiryForm(),
     TempPage(),
-    LeadsPage()
+    LeadsPage(),
+    QuotationScreen()
   ];
 
   void _onTabTapped(int index) {
@@ -40,19 +42,21 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               color: Colors.grey.withOpacity(0.2),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
         child: BottomNavigationBar(
+        
+          iconSize: 24,
           currentIndex: _currentIndex,
           onTap: _onTabTapped,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          selectedItemColor: Colors.blueAccent,
+          selectedItemColor: Colors.black,
           unselectedItemColor: Colors.grey,
-          selectedIconTheme: IconThemeData(size: 30, color: Colors.blueAccent),
-          unselectedIconTheme: IconThemeData(size: 25),
+          selectedIconTheme: const IconThemeData(size: 30, color: Colors.red),
+          unselectedIconTheme: const IconThemeData(size: 25),
           showSelectedLabels: true,
           showUnselectedLabels: false,
           items: const [
@@ -65,12 +69,12 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               label: 'Feedback',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined),
-              label: 'Options',
+              icon: Icon(Icons.playlist_add_check_circle_rounded,size:36,),
+              label: 'Leads',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.support_agent_outlined),
-              label: 'Support',
+              label: 'Quotaion',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.library_books_outlined),

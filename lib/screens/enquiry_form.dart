@@ -1,3 +1,4 @@
+import 'package:elegant_interiors/core/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,90 +13,81 @@ class _EnquiryFormState extends State<EnquiryForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Enquiry Form', style: TextStyle(fontWeight: FontWeight.w300)),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.white, Colors.red.shade50],
-          ),
-        ),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Text(
-                //   'We\'d love to hear from you!',
-                //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red.shade800),
-                //   textAlign: TextAlign.center,
-                // ),
-                Image.asset("assets/images/elegant-logo-removebg-preview.png"),
-                SizedBox(height: 24),
-                CustomTextField(
-                  label: 'First Name',
-                  icon: Icons.person_outline,
-                  onSaved: (value) => _formData['firstName'] = value,
-                  validator: requiredValidator,
+    return SafeArea(
+      child: Scaffold(
+       backgroundColor: backgroundColorlightgrey,
+        body: Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Container(
+            decoration: BoxDecoration(
+              color: backgroundColorgrey
+            ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Text(
+                    //   'We\'d love to hear from you!',
+                    //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red.shade800),
+                    //   textAlign: TextAlign.center,
+                    // ),
+                   
+                    const SizedBox(height: 24),
+                    CustomTextField(
+                      label: 'Name',
+                      icon: Icons.person_outline,
+                      onSaved: (value) => _formData['firstName'] = value,
+                      validator: requiredValidator,
+                    ),
+                   
+                    CustomTextField(
+                      label: 'Email Address (Optional)',
+                      icon: Icons.email_outlined,
+                      keyboardType: TextInputType.emailAddress,
+                      onSaved: (value) => _formData['email'] = value,
+                      validator: emailValidator,
+                    ),
+                    CustomTextField(
+                      label: 'Phone Number',
+                      icon: Icons.phone_outlined,
+                      prefixText: '+91 ',
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      onSaved: (value) => _formData['phone'] = value,
+                      validator: requiredValidator,
+                    ),
+                    CustomTextField(
+                      label: 'Address',
+                      icon: Icons.home_outlined,
+                      maxLines: 3,
+                      onSaved: (value) => _formData['address'] = value,
+                      validator: requiredValidator,
+                    ),
+                    CustomDropdownField(
+                      label: 'Enquiry About',
+                      icon: Icons.help_outline,
+                      items: ['Kitchen Design', 'Interior Decoration', 'Renovation', 'Other'],
+                      onChanged: (value) => _formData['enquiryAbout'] = value,
+                      validator: requiredValidator,
+                    ),
+                    CustomDropdownField(
+                      label: 'How Did You Find Us?',
+                      icon: Icons.search,
+                      items: ['Google', 'Social Media', 'Referral', 'Other'],
+                      onChanged: (value) => _formData['howDidYouFindUs'] = value,
+                      validator: requiredValidator,
+                    ),
+                    const SizedBox(height: 32),
+                    CustomButton(
+                      label: 'Submit',
+                      onPressed: _submitForm,
+                    ),
+                  ],
                 ),
-                CustomTextField(
-                  label: 'Last Name',
-                  icon: Icons.person_outline,
-                  onSaved: (value) => _formData['lastName'] = value,
-                  validator: requiredValidator,
-                ),
-                CustomTextField(
-                  label: 'Email Address (Optional)',
-                  icon: Icons.email_outlined,
-                  keyboardType: TextInputType.emailAddress,
-                  onSaved: (value) => _formData['email'] = value,
-                  validator: emailValidator,
-                ),
-                CustomTextField(
-                  label: 'Phone Number',
-                  icon: Icons.phone_outlined,
-                  prefixText: '+91 ',
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onSaved: (value) => _formData['phone'] = value,
-                  validator: requiredValidator,
-                ),
-                CustomTextField(
-                  label: 'Address',
-                  icon: Icons.home_outlined,
-                  maxLines: 3,
-                  onSaved: (value) => _formData['address'] = value,
-                  validator: requiredValidator,
-                ),
-                CustomDropdownField(
-                  label: 'Enquiry About',
-                  icon: Icons.help_outline,
-                  items: ['Kitchen Design', 'Interior Decoration', 'Renovation', 'Other'],
-                  onChanged: (value) => _formData['enquiryAbout'] = value,
-                  validator: requiredValidator,
-                ),
-                CustomDropdownField(
-                  label: 'How Did You Find Us?',
-                  icon: Icons.search,
-                  items: ['Google', 'Social Media', 'Referral', 'Other'],
-                  onChanged: (value) => _formData['howDidYouFindUs'] = value,
-                  validator: requiredValidator,
-                ),
-                SizedBox(height: 32),
-                CustomButton(
-                  label: 'Submit',
-                  onPressed: _submitForm,
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -114,10 +106,10 @@ class _EnquiryFormState extends State<EnquiryForm> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Thank You!'),
-            content: Text('Your enquiry has been submitted successfully. We\'ll get back to you soon.'),
+            content: const Text('Your enquiry has been submitted successfully. We\'ll get back to you soon.'),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
                   _formKey.currentState!.reset();
@@ -204,7 +196,7 @@ class CustomDropdownField extends StatelessWidget {
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: Icon(icon, color: Colors.red.shade300),
+          prefixIcon: Icon(icon, color:elagantIconsColor),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
@@ -239,11 +231,10 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      child: Text(label, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      child: Text(label, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       style: ElevatedButton.styleFrom(
-        primary: Colors.red.shade600,
-        onPrimary: Colors.white,
-        padding: EdgeInsets.symmetric(vertical: 16),
+        foregroundColor: Colors.white, backgroundColor: Colors.red.shade600,
+        padding: const EdgeInsets.symmetric(vertical: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

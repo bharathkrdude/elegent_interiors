@@ -1,6 +1,5 @@
 import 'package:elegant_interiors/core/color.dart';
-import 'package:elegant_interiors/screens/login/login_screen.dart';
-import 'package:elegant_interiors/screens/temp.dart';
+import 'package:elegant_interiors/screens/splash/screen_splash.dart';
 import 'package:elegant_interiors/screens/widgets/primary_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -44,7 +43,7 @@ class _SignInPageState extends State<SignInPage> {
             _showMessage('Login Successful');
             Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => TempPage()),
+          MaterialPageRoute(builder: (context) => const SplashScreen()),
         );
           } else {
             _showMessage('Login failed: ${data['message']}');
@@ -74,28 +73,28 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(color: white),
+        decoration: const BoxDecoration(color: white),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(height: 40,),
+                          const SizedBox(height: 40,),
                           Image.asset(
                             'assets/images/eham.webp',
                             height: 40,
                             alignment: Alignment.center,
                           ),
-                          SizedBox(height: 60),
+                          const SizedBox(height: 60),
                           Image.asset(
                             'assets/images/elegant-logo-removebg-preview.png',
                             height: 100,
@@ -155,7 +154,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     const SizedBox(height: 40),
                     _isLoading
-                      ? Center(child: CircularProgressIndicator())
+                      ? const Center(child: CircularProgressIndicator())
                       : PrimaryButtonWidget(title: "Login", onPressed: _login)
                   ],
                 ),

@@ -15,11 +15,11 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
-    data['token'] = this.token;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    data['message'] = message;
+    data['status'] = status;
+    data['token'] = token;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -28,18 +28,18 @@ class UserModel {
 class User {
   int? id;
   int? code;
-  Null? username;
-  Null? profileImage;
+  Null username;
+  Null profileImage;
   String? name;
   String? email;
-  Null? emailVerifiedAt;
+  Null emailVerifiedAt;
   String? phone;
   String? otpExpiresAt;
   int? otp;
-  Null? phoneOtp;
-  Null? phoneOtpExpiresAt;
-  Null? forgotOtp;
-  Null? forgotOtpExpiresAt;
+  Null phoneOtp;
+  Null phoneOtpExpiresAt;
+  Null forgotOtp;
+  Null forgotOtpExpiresAt;
   String? createdAt;
   String? updatedAt;
   String? userType;
@@ -47,10 +47,10 @@ class User {
   String? otpVerified;
   String? phoneOtpVerified;
   String? isDeactivate;
-  Null? deactivateReason;
-  Null? deletedAt;
+  Null deactivateReason;
+  Null deletedAt;
   String? deletedStatus;
-  Null? deviceToken;
+  Null deviceToken;
   String? appType;
 
   User(
@@ -112,32 +112,32 @@ class User {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['code'] = this.code;
-    data['username'] = this.username;
-    data['profile_image'] = this.profileImage;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['phone'] = this.phone;
-    data['otp_expires_at'] = this.otpExpiresAt;
-    data['otp'] = this.otp;
-    data['phone_otp'] = this.phoneOtp;
-    data['phone_otp_expires_at'] = this.phoneOtpExpiresAt;
-    data['forgot_otp'] = this.forgotOtp;
-    data['forgot_otp_expires_at'] = this.forgotOtpExpiresAt;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['user_type'] = this.userType;
-    data['is_first_login'] = this.isFirstLogin;
-    data['otp_verified'] = this.otpVerified;
-    data['phone_otp_verified'] = this.phoneOtpVerified;
-    data['is_deactivate'] = this.isDeactivate;
-    data['deactivate_reason'] = this.deactivateReason;
-    data['deleted_at'] = this.deletedAt;
-    data['deleted_status'] = this.deletedStatus;
-    data['device_token'] = this.deviceToken;
-    data['app_type'] = this.appType;
+    data['id'] = id;
+    data['code'] = code;
+    data['username'] = username;
+    data['profile_image'] = profileImage;
+    data['name'] = name;
+    data['email'] = email;
+    data['email_verified_at'] = emailVerifiedAt;
+    data['phone'] = phone;
+    data['otp_expires_at'] = otpExpiresAt;
+    data['otp'] = otp;
+    data['phone_otp'] = phoneOtp;
+    data['phone_otp_expires_at'] = phoneOtpExpiresAt;
+    data['forgot_otp'] = forgotOtp;
+    data['forgot_otp_expires_at'] = forgotOtpExpiresAt;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['user_type'] = userType;
+    data['is_first_login'] = isFirstLogin;
+    data['otp_verified'] = otpVerified;
+    data['phone_otp_verified'] = phoneOtpVerified;
+    data['is_deactivate'] = isDeactivate;
+    data['deactivate_reason'] = deactivateReason;
+    data['deleted_at'] = deletedAt;
+    data['deleted_status'] = deletedStatus;
+    data['device_token'] = deviceToken;
+    data['app_type'] = appType;
     return data;
   }
 }

@@ -36,7 +36,7 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Form Submitted')),
+        const SnackBar(content: Text('Form Submitted')),
       );
     }
   }
@@ -54,7 +54,7 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Enquiry Form')),
+      appBar: AppBar(title: const Text('Enquiry Form')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -62,8 +62,8 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
           child: ListView(
             children: [
               // First Name and Last Name heading
-              Text('First Name', style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
+              const Text('First Name', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
 
               // First Name and Last Name in the same row
               Row(
@@ -71,7 +71,7 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
                   Expanded(
                     child: TextFormField(
                       controller: _firstNameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'First Name',
                         border: OutlineInputBorder(),
                       ),
@@ -86,11 +86,11 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
                       },
                     ),
                   ),
-                  SizedBox(width: 16.0),
+                  const SizedBox(width: 16.0),
                   Expanded(
                     child: TextFormField(
                       controller: _lastNameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Last Name',
                         border: OutlineInputBorder(),
                       ),
@@ -107,31 +107,31 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               // Email Address heading
-              Text('Email Address', style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
+              const Text('Email Address', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
 
               // Email Field (Optional)
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email Address (Optional)',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               // Phone Number heading
-              Text('Phone Number', style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
+              const Text('Phone Number', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
 
               // Phone Number Field
               TextFormField(
                 controller: _phoneController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Phone Number',
                   border: OutlineInputBorder(),
                 ),
@@ -139,16 +139,16 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: _validatePhoneNumber,
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               // Address heading
-              Text('Address', style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
+              const Text('Address', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
 
               // Address Field
               TextFormField(
                 controller: _addressController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Address',
                   border: OutlineInputBorder(),
                 ),
@@ -159,15 +159,15 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               // Enquiry About heading
-              Text('Enquiry About', style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
+              const Text('Enquiry About', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
 
               // Enquiry About Dropdown
               DropdownButtonFormField<String>(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Select an Option',
                   border: OutlineInputBorder(),
                 ),
@@ -190,15 +190,15 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
                   return null;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
 
               // How did you find us heading
-              Text('How did you find us', style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 8.0),
+              const Text('How did you find us', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
 
               // How did you find us Dropdown
               DropdownButtonFormField<String>(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Select an Option',
                   border: OutlineInputBorder(),
                 ),
@@ -221,7 +221,7 @@ class _EnquiryForm3State extends State<EnquiryForm3> {
                   return null;
                 },
               ),
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24.0),
 
               // Submit Button
               PrimaryButtonWidget(
