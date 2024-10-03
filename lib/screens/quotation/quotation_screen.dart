@@ -8,34 +8,43 @@ class QuotationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: white,
+        title: Center(child: Text("Quotation",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24), )),
+      ),
       backgroundColor: backgroundColorlightgrey,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            SizedBox(
-              height: 100,
+            CustomerQuotationTile(
+              name: "Joseph Francis",
+              amount: "500000",
+              commission: "36000",
+              onTap: () {},
+              onCallPressed: () {},
             ),
             CustomerQuotationTile(
-                name: "Joseph Francis",
-                amount: "500000",
-                commission: "36000",
-                onTap: () {}, onCallPressed: () {  },),
-                 CustomerQuotationTile(
-                name: "Ajay Chandran",
-                amount: "500000",
-                commission: "36000",
-                onTap: () {}, onCallPressed: () {  },),
-                 CustomerQuotationTile(
-                name: "joseph",
-                amount: "500000",
-                commission: "36000",
-                onTap: () {}, onCallPressed: () {  },),
-                 CustomerQuotationTile(
-                name: "joseph",
-                amount: "500000",
-                commission: "36000",
-                onTap: () {}, onCallPressed: () {  },),
+              name: "Ajay Chandran",
+              amount: "500000",
+              commission: "36000",
+              onTap: () {},
+              onCallPressed: () {},
+            ),
+            CustomerQuotationTile(
+              name: "joseph",
+              amount: "500000",
+              commission: "36000",
+              onTap: () {},
+              onCallPressed: () {},
+            ),
+            CustomerQuotationTile(
+              name: "joseph",
+              amount: "500000",
+              commission: "36000",
+              onTap: () {},
+              onCallPressed: () {},
+            ),
           ],
         ),
       ),

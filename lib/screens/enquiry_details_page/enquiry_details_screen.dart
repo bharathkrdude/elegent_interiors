@@ -31,7 +31,7 @@ class EnquiryDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Enquiry Details'),
+        title: const Text('Enquiry Details',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 27, color: elegantRedColor ),),
         backgroundColor: white,
       ),
       body: Padding(
@@ -51,7 +51,7 @@ class EnquiryDetailsPage extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               'Enquiry Details',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(color: elegantRedColor),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 24),
             ),
             const SizedBox(height: 16),
             _buildInfoRow(Icons.help_outline, 'Enquiry About: $enquiryAbout'),
@@ -67,7 +67,7 @@ class EnquiryDetailsPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context); // Handle back navigation
                       },
-                      color: elegantBackgroundColor,
+                    
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -78,7 +78,7 @@ class EnquiryDetailsPage extends StatelessWidget {
                         // Default action for contact (e.g., call or message)
                         print('Contacting $name');
                       },
-                      color: elegantBackgroundColor,
+                      
                     ),
                   ),
                 ],
@@ -95,7 +95,7 @@ class EnquiryDetailsPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Icon(icon, size: 24, color: elegantBackgroundColor),
+          Icon(icon, size: 24, color: elegantRedColor),
           const SizedBox(width: 16),
           Expanded(
             child: Text(

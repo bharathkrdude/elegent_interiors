@@ -1,3 +1,4 @@
+import 'package:elegant_interiors/screens/bottom_navigation/temp.dart';
 import 'package:elegant_interiors/screens/enquiry_form.dart';
 import 'package:elegant_interiors/screens/leads/screen_leads.dart';
 import 'package:elegant_interiors/screens/quotation/quotation_screen.dart';
@@ -18,7 +19,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     EnquiryForm(),
     TempPage(),
     LeadsPage(),
-    QuotationScreen()
+    QuotationScreen(),
+    LeadListScreen()
   ];
 
   void _onTabTapped(int index) {
