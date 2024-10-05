@@ -1,4 +1,4 @@
 class API {
-  final String baseUrl = "https://cafarde.in/api/";
-  final String authUrl = "https://cafarde.in/api/login";
+  final String baseUrl = "https://elegantinteriors.in/api/v1/";
+  final String authUrl = "https://elegantinteriors.in/api/v1/login";
 }

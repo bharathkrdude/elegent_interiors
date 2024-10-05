@@ -1,4 +1,4 @@
-import 'package:elegant_interiors/screens/bottom_navigation/temp.dart';
+import 'package:elegant_interiors/screens/dashboard/dashboard.dart';
 import 'package:elegant_interiors/screens/enquiry_form.dart';
 import 'package:elegant_interiors/screens/leads/screen_leads.dart';
 import 'package:elegant_interiors/screens/quotation/quotation_screen.dart';
@@ -20,7 +20,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     TempPage(),
     LeadsPage(),
     QuotationScreen(),
-    LeadListScreen()
+    Dashboard()
   ];
 
   void _onTabTapped(int index) {
@@ -80,7 +80,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.library_books_outlined),
-              label: 'Library',
+              label: 'Dashboard',
             ),
           ],
         ),

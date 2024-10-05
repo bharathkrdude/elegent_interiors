@@ -31,7 +31,10 @@ class EnquiryDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Enquiry Details',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 27, color: elegantRedColor ),),
+        title: const Text(
+          'Enquiry Details',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27, color: elegantRedColor),
+        ),
         backgroundColor: white,
       ),
       body: Padding(
@@ -44,14 +47,17 @@ class EnquiryDetailsPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            _buildInfoRow(Icons.calendar_today, 'Enquiry Date: ${DateFormat('MMMM d, y').format(enquiryDate)}'),
+            _buildInfoRow(Icons.calendar_today, 'Enquiry Date: ${enquiryDate }'),
             _buildInfoRow(Icons.email_outlined, email),
             _buildInfoRow(Icons.phone_outlined, phone),
             _buildInfoRow(Icons.home_outlined, address),
             const SizedBox(height: 24),
             Text(
               'Enquiry Details',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 24),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24),
             ),
             const SizedBox(height: 16),
             _buildInfoRow(Icons.help_outline, 'Enquiry About: $enquiryAbout'),
@@ -67,7 +73,6 @@ class EnquiryDetailsPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context); // Handle back navigation
                       },
-                    
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -78,7 +83,6 @@ class EnquiryDetailsPage extends StatelessWidget {
                         // Default action for contact (e.g., call or message)
                         print('Contacting $name');
                       },
-                      
                     ),
                   ),
                 ],

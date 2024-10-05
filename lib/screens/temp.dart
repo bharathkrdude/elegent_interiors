@@ -39,7 +39,7 @@ class _TempPageState extends State<TempPage> {
     await prefs.remove('auth_token'); // Ensure the correct key is used
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => SignInPage()),
+      MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
 
@@ -56,7 +56,7 @@ class _TempPageState extends State<TempPage> {
           ),
         ],
       ),
-      body:const Center(child: Text("nothng here!!"))
+      body:const Center(child: Text("app under construction!!"))
     );
   }
 }

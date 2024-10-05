@@ -1,34 +1,43 @@
+// controllers/lead_controller.dart
 import 'dart:convert';
+import 'package:elegant_interiors/model/lead_response.dart';
 import 'package:elegant_interiors/model/leads_model.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
-class LeadController {
-  final String apiUrl = 'http://cafarde.in/api/leads-list';
+class LeadController extends GetxController {
+  var leads = <LeadModel>[].obs;
+  var isLoading = true.obs;
 
-  Future<String> _getBearerToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token') ?? ''; // Use the key under which you saved the token
+  @override
+  void onInit() {
+    super.onInit();
+    fetchLeads();
   }
 
-  Future<LeadResponse> fetchLeads() async {
+  Future<void> fetchLeads() async {
+    isLoading(true);
     try {
-      String bearerToken = await _getBearerToken(); // Fetch token from SharedPreferences
-      final response = await http.get(
-        Uri.parse(apiUrl),
-        headers: {
-          'Authorization': 'Bearer $bearerToken',
-          'Content-Type': 'application/json',
-        },
+      var response = await http.get(
+        Uri.parse('https://elegantinteriors.in/api/v1/get-enquiry'),
       );
 
       if (response.statusCode == 200) {
-        return LeadResponse.fromJson(json.decode(response.body));
+        var jsonData = json.decode(response.body);
+        LeadResponse leadResponse = LeadResponse.fromJson(jsonData);
+
+        if (leadResponse.status) {
+          leads.assignAll(leadResponse.leads);
+        } else {
+          print('Failed to fetch leads');
+        }
       } else {
-        throw Exception('Failed to load leads');
+        print('Error: ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('Error fetching leads: $e');
+      print('Error fetching leads: $e');
+    } finally {
+      isLoading(false);
     }
   }
 }

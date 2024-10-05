@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => SignInPage(), // Go to SignInPage if token doesn't exist
+          builder: (context) => LoginPage(), // Go to SignInPage if token doesn't exist
         ),
       );
     }
