@@ -11,38 +11,8 @@ class TempPage extends StatefulWidget {
 }
 
 class _TempPageState extends State<TempPage> {
-  String? _token;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadToken();
-  }
-
-  // Retrieve token from SharedPreferences
-  Future<void> _loadToken() async {
-    String? token = await _getToken();
-    setState(() {
-      _token = token;
-    });
-  }
-
-  // Function to get the token from SharedPreferences
-  Future<String?> _getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('auth_token'); // Ensure the correct key is used
-  }
-
-  // Logout function to remove token from SharedPreferences and navigate to LoginScreen
-  Future<void> _logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('auth_token'); // Ensure the correct key is used
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
-  }
-
+ 
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +22,7 @@ class _TempPageState extends State<TempPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: _logout, // Trigger logout when button is pressed
+            onPressed: (){} // Trigger logout when button is pressed
           ),
         ],
       ),

@@ -1,25 +1,15 @@
+import 'package:elegant_interiors/screens/dashboard/dash_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Dashboard extends StatelessWidget {
+  final DashboardController controller = Get.put(DashboardController());
+
   final List<String> cardTitles = [
-    'delivered',
+    'Delivered',
     'Open Rate',
     'Click Rate',
     'Source',
-  ];
-
-  final List<String> cardSubtitles = [
-    '50% ',
-    '98%',
-    '100% ',
-    '78%',
-  ];
-
-  final List<String> cardAdditionalTexts = [
-    '5%',
-    '9%',
-    '8%',
-    '20%',
   ];
 
   @override
@@ -32,26 +22,31 @@ class Dashboard extends StatelessWidget {
           title: const Text('Dashboard', style: TextStyle(color: Colors.black)),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8,vertical:4 ),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildCard(cardTitles[0], cardSubtitles[0], cardAdditionalTexts[0]),
-                    _buildCard(cardTitles[1], cardSubtitles[1], cardAdditionalTexts[1]),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildCard(cardTitles[2], cardSubtitles[2], cardAdditionalTexts[2]),
-                    _buildCard(cardTitles[3], cardSubtitles[3], cardAdditionalTexts[3]),
-                  ],
+                GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(), // To avoid scrolling inside the grid
+                  shrinkWrap: true, // Important to ensure GridView takes only the required height
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Display two items per row
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 1.5, // Adjust height based on width
+                  ),
+                  itemCount: cardTitles.length,
+                  itemBuilder: (context, index) {
+                    return Obx(
+                      () => DashCard(
+                        title: cardTitles[index],
+                        subtitle: controller.cardSubtitles[index],
+                        additionalText: controller.cardAdditionalTexts[index],
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -60,49 +55,60 @@ class Dashboard extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildCard(String title, String subtitle, String additionalText) {
-    return Expanded(
-      child: Card(
-        elevation: 3,
-        color: Colors.white, // Set card color to white
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
+class DashCard extends StatelessWidget {
+  const DashCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.additionalText,
+  });
+
+  final String title;
+  final String subtitle;
+  final String additionalText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3,
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.black,
               ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
-                   SizedBox(width: 25), // Space between subtitle and additional text
-              Text(
-                "+$additionalText", // Smaller text below the subtitle
-                style: TextStyle(
-                  fontSize: 14, // Smaller font size
-                  color: Colors.black54, // Lighter color for the smaller text
                 ),
-              ),
-                ],
-              ),
-             
-            ],
-          ),
+                const SizedBox(width: 25), // Space between subtitle and additional text
+                Text(
+                  "+$additionalText",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:elegant_interiors/screens/dashboard/dashboard.dart';
 import 'package:elegant_interiors/screens/enquiry_form.dart';
 import 'package:elegant_interiors/screens/leads/screen_leads.dart';
+import 'package:elegant_interiors/screens/profile/profile_screen.dart';
 import 'package:elegant_interiors/screens/quotation/quotation_screen.dart';
 import 'package:elegant_interiors/screens/temp.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,11 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
+    Dashboard(),
     EnquiryForm(),
-    TempPage(),
     LeadsPage(),
     QuotationScreen(),
-    Dashboard()
+    ProfilePage(),
   ];
 
   void _onTabTapped(int index) {
@@ -49,7 +50,6 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           ],
         ),
         child: BottomNavigationBar(
-        
           iconSize: 24,
           currentIndex: _currentIndex,
           onTap: _onTabTapped,
@@ -64,23 +64,26 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
-              label: 'Home',
+              label: 'Dashboard',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.feedback_outlined),
               label: 'Feedback',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.playlist_add_check_circle_rounded,size:36,),
+              icon: Icon(
+                Icons.add_circle_outline,
+                size: 38,
+              ),
               label: 'Leads',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.support_agent_outlined),
-              label: 'Quotaion',
+              label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.library_books_outlined),
-              label: 'Dashboard',
+              icon: Icon(Icons.person_2_outlined),
+              label: 'profile',
             ),
           ],
         ),

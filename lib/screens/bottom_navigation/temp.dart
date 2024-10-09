@@ -107,7 +107,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'dart:math';
+
 
 class AuthService {
   static const String _tokenKey = 'auth_token';
@@ -169,7 +169,7 @@ class AuthService {
 }
 
 class LeadsService {
-  static Future<List<dynamic>> fetchLeads() async {
+  static Future<List<dynamic>> fetchLeads() async { 
     String? token = await AuthService.getToken();
     if (token == null) {
       throw Exception('No token available');
@@ -288,7 +288,7 @@ class _LeadDataPageState extends State<LeadDataPage> {
                 address: lead['address'] ?? 'No address',
                 enquiryAbout: lead['enquiry'] ?? 'N/A',
                 foundThrough: lead['how_did_you_find_us'] ?? 'N/A',
-                enquiryDate:lead['updated_at'] ?? DateTime.now(),
+                enquiryDate: DateTime.now(),
                 onEdit: () {
                   // Handle edit action
                 },

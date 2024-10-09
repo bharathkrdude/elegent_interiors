@@ -29,12 +29,7 @@ class _EnquiryFormState extends State<EnquiryForm> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Text(
-                    //   'We\'d love to hear from you!',
-                    //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red.shade800),
-                    //   textAlign: TextAlign.center,
-                    // ),
-                   
+                    
                     const SizedBox(height: 24),
                     CustomTextField(
                       label: 'Name',
