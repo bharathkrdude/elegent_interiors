@@ -88,7 +88,7 @@ import 'package:get/get.dart';
 
 
 class LeadsPage extends StatelessWidget {
-  final LeadController leadController = Get.put(LeadController());
+  final LeadDataController leadController = Get.put(LeadDataController());
 
   @override
   Widget build(BuildContext context) {

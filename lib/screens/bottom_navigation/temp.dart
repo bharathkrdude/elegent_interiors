@@ -101,9 +101,11 @@
 
 
 
+import 'package:elegant_interiors/controller/leadcontroller.dart';
 import 'package:elegant_interiors/screens/enquiry_details_page/enquiry_details_screen.dart';
 import 'package:elegant_interiors/screens/leads/widgets/customer_card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -111,7 +113,7 @@ import 'dart:convert';
 
 class AuthService {
   static const String _tokenKey = 'auth_token';
-  static const String _baseUrl = 'https://elegantinteriors.in/api/v1';
+  static const String _baseUrl = 'https://elegantinteriors.in/demo/api/v1';
 
   static Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -132,7 +134,6 @@ class AuthService {
           'password': password,
         },
       );
-
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['token'] != null) {
@@ -153,7 +154,6 @@ class AuthService {
         Uri.parse('$_baseUrl/refresh-token'),
         headers: {'Authorization': 'Bearer $currentToken'},
       );
-
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['token'] != null) {
@@ -168,20 +168,20 @@ class AuthService {
   }
 }
 
+
 class LeadsService {
-  static Future<List<dynamic>> fetchLeads() async { 
+  static Future<List<dynamic>> fetchLeads() async {
     String? token = await AuthService.getToken();
     if (token == null) {
       throw Exception('No token available');
     }
-
     final url = Uri.parse('${AuthService._baseUrl}/get-enquiry');
     final response = await _authenticatedRequest(url, token);
-
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      if (data is Map<String, dynamic> && data.containsKey('data')) {
-        return data['data'];
+      print('API Response: $data'); // This line is helpful for debugging
+      if (data is Map<String, dynamic> && data.containsKey('enquiries')) {
+        return data['enquiries'];
       } else {
         throw Exception('Unexpected data structure: ${data.keys.join(', ')}');
       }
@@ -195,9 +195,7 @@ class LeadsService {
       'Authorization': 'Bearer $token',
       'Accept': 'application/json',
     };
-
     http.Response response = await http.get(url, headers: headers);
-
     if (response.statusCode == 401) {
       bool refreshed = await AuthService.refreshToken();
       if (refreshed) {
@@ -208,52 +206,20 @@ class LeadsService {
         }
       }
     }
-
     return response;
   }
 }
 
 
 
-class LeadDataPage extends StatefulWidget {
-  @override
-  _LeadDataPageState createState() => _LeadDataPageState();
-}
 
-class _LeadDataPageState extends State<LeadDataPage> {
-  List<dynamic> _leads = [];
-  bool _isLoading = false;
-  String? _errorMessage;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchLeads();
-  }
-
-  Future<void> _fetchLeads() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-
-    try {
-      _leads = await LeadsService.fetchLeads();
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = e.toString();
-      });
-    }
-  }
+class LeadDataPage extends StatelessWidget {
+  final LeadDataController controller = Get.put(LeadDataController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
+      appBar: AppBar(
         title: Center(
           child: Text(
             "Leads Page",
@@ -261,49 +227,54 @@ class _LeadDataPageState extends State<LeadDataPage> {
           ),
         ),
       ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : _errorMessage != null
-              ? Center(child: Text(_errorMessage!))
-              : ListView.builder(
-  itemCount: _leads.length,
-  itemBuilder: (context, index) {
-    final lead = _leads[index];
-    return Padding(
-      padding: const EdgeInsets.only(left: 8,right:8, ),
-      child: CustomerCardWidget(
-        name: lead['first_name'] ?? 'No name',
-        address: lead['address'] ?? 'No address',
-        phoneNumber: lead['phone'] ?? 'No phone',
-        onCallPressed: () {
-          // Implement call functionality
-        },
-        onCardTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => EnquiryDetailsPage(
-                name: lead['first_name'] ?? 'No name',
-                email: lead['email'] ?? 'No email',
-                phone: lead['phone'] ?? 'No phone',
-                address: lead['address'] ?? 'No address',
-                enquiryAbout: lead['enquiry'] ?? 'N/A',
-                foundThrough: lead['how_did_you_find_us'] ?? 'N/A',
-                enquiryDate: DateTime.now(),
-                onEdit: () {
-                  // Handle edit action
-                },
-                onContact: () {
-                  // Handle contact action
-                },
-              ),
-            ),
-          );
+      body: Obx(
+        () {
+          if (controller.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          } else if (controller.errorMessage.isNotEmpty) {
+            return Center(child: Text(controller.errorMessage.value));
+          } else {
+            return ListView.builder(
+              itemCount: controller.leads.length,
+              itemBuilder: (context, index) {
+                final lead = controller.leads[index];
+                return Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  child: CustomerCardWidget(
+                    name: lead['first_name'] ?? 'No name',
+                    address: lead['address'] ?? 'No address',
+                    phoneNumber: lead['phone'] ?? 'No phone',
+                    onCallPressed: () {
+                      // Implement call functionality
+                    },
+                    onCardTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => EnquiryDetailsPage(
+                            name: lead['first_name'] ?? 'No name',
+                            email: lead['email'] ?? 'No email',
+                            phone: lead['phone'] ?? 'No phone',
+                            address: lead['address'] ?? 'No address',
+                            enquiryAbout: lead['enquiry'] ?? 'N/A',
+                            foundThrough: lead['how_did_you_find_us'] ?? 'N/A',
+                            enquiryDate: DateTime.now(),
+                            onEdit: () {
+                              // Handle edit action
+                            },
+                            onContact: () {
+                              // Handle contact action
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          }
         },
       ),
-    );
-  },
-)
-
     );
   }
 }

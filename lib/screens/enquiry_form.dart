@@ -1,84 +1,115 @@
-import 'package:elegant_interiors/core/color.dart';
+import 'package:elegant_interiors/controller/enquiry_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:elegant_interiors/core/color.dart';
 
-class EnquiryForm extends StatefulWidget {
-  @override
-  _EnquiryFormState createState() => _EnquiryFormState();
-}
-
-class _EnquiryFormState extends State<EnquiryForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _formData = <String, dynamic>{};
+class EnquiryForm extends StatelessWidget {
+  final EnquiryController controller = Get.put(EnquiryController());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-       backgroundColor: backgroundColorlightgrey,
+        backgroundColor: Colors.grey[200], // Replace with your background color variable
         body: Padding(
           padding: const EdgeInsets.only(top: 12),
           child: Container(
             decoration: BoxDecoration(
-              color: backgroundColorgrey
+              color: Colors.white, // Replace with your container background color
             ),
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
               child: Form(
-                key: _formKey,
+                key: controller.formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    
                     const SizedBox(height: 24),
+                    // Name Field
                     CustomTextField(
                       label: 'Name',
                       icon: Icons.person_outline,
-                      onSaved: (value) => _formData['firstName'] = value,
-                      validator: requiredValidator,
+                      onSaved: (value) => controller.updateField('firstName', value),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your name';
+                        }
+                        return null;
+                      },
                     ),
-                   
+                    // Email Field
                     CustomTextField(
                       label: 'Email Address (Optional)',
                       icon: Icons.email_outlined,
                       keyboardType: TextInputType.emailAddress,
-                      onSaved: (value) => _formData['email'] = value,
-                      validator: emailValidator,
+                      onSaved: (value) => controller.updateField('email', value),
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty && !GetUtils.isEmail(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
                     ),
+                    // Phone Field
                     CustomTextField(
                       label: 'Phone Number',
                       icon: Icons.phone_outlined,
                       prefixText: '+91 ',
                       keyboardType: TextInputType.phone,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      onSaved: (value) => _formData['phone'] = value,
-                      validator: requiredValidator,
+                      onSaved: (value) => controller.updateField('phone', value),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your phone number';
+                        }
+                        return null;
+                      },
                     ),
+                    // Address Field
                     CustomTextField(
                       label: 'Address',
                       icon: Icons.home_outlined,
                       maxLines: 3,
-                      onSaved: (value) => _formData['address'] = value,
-                      validator: requiredValidator,
+                      onSaved: (value) => controller.updateField('address', value),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your address';
+                        }
+                        return null;
+                      },
                     ),
+                    // Enquiry About Dropdown
                     CustomDropdownField(
                       label: 'Enquiry About',
                       icon: Icons.help_outline,
                       items: ['Kitchen Design', 'Interior Decoration', 'Renovation', 'Other'],
-                      onChanged: (value) => _formData['enquiryAbout'] = value,
-                      validator: requiredValidator,
+                      onChanged: (value) => controller.updateField('enquiryAbout', value),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select an option';
+                        }
+                        return null;
+                      },
                     ),
+                    // How Did You Find Us Dropdown
                     CustomDropdownField(
                       label: 'How Did You Find Us?',
                       icon: Icons.search,
                       items: ['Google', 'Social Media', 'Referral', 'Other'],
-                      onChanged: (value) => _formData['howDidYouFindUs'] = value,
-                      validator: requiredValidator,
+                      onChanged: (value) => controller.updateField('howDidYouFindUs', value),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select an option';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 32),
+                    // Submit Button
                     CustomButton(
                       label: 'Submit',
-                      onPressed: _submitForm,
+                      onPressed: controller.submitForm,
                     ),
                   ],
                 ),
@@ -89,35 +120,8 @@ class _EnquiryFormState extends State<EnquiryForm> {
       ),
     );
   }
-
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      // Process form data
-      print(_formData);
-      // Show success message
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Thank You!'),
-            content: const Text('Your enquiry has been submitted successfully. We\'ll get back to you soon.'),
-            actions: [
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  _formKey.currentState!.reset();
-                  setState(() => _formData.clear());
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
 }
+
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -191,7 +195,7 @@ class CustomDropdownField extends StatelessWidget {
       child: DropdownButtonFormField<String>(
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: Icon(icon, color:elagantIconsColor),
+          prefixIcon: Icon(icon, color: elagantIconsColor),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
@@ -228,7 +232,8 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       child: Text(label, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Colors.red.shade600,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.red.shade600,
         padding: const EdgeInsets.symmetric(vertical: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),

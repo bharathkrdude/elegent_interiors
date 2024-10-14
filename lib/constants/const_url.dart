@@ -1,3 +1,3 @@
-const baseUrl = 'https://elegantinteriors.in/api/v1';
+const baseUrl = 'https://elegantinteriors.in/demo/api/v1';
 
 

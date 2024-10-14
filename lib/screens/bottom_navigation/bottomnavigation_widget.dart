@@ -4,6 +4,7 @@ import 'package:elegant_interiors/screens/leads/screen_leads.dart';
 import 'package:elegant_interiors/screens/profile/profile_screen.dart';
 import 'package:elegant_interiors/screens/quotation/quotation_screen.dart';
 import 'package:elegant_interiors/screens/temp.dart';
+import 'package:elegant_interiors/screens/widgets/temp_form.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
@@ -20,8 +21,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     Dashboard(),
     EnquiryForm(),
     LeadsPage(),
-    QuotationScreen(),
     ProfilePage(),
+    QuotationScreen(),
+    // FormView()
   ];
 
   void _onTabTapped(int index) {
