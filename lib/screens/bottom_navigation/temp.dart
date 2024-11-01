@@ -102,13 +102,18 @@
 
 
 import 'package:elegant_interiors/controller/leadcontroller.dart';
+import 'package:elegant_interiors/core/color.dart';
 import 'package:elegant_interiors/screens/enquiry_details_page/enquiry_details_screen.dart';
 import 'package:elegant_interiors/screens/leads/widgets/customer_card_widget.dart';
+import 'package:elegant_interiors/screens/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+
+import 'package:url_launcher/url_launcher.dart';
 
 
 class AuthService {
@@ -210,23 +215,22 @@ class LeadsService {
   }
 }
 
-
-
-
 class LeadDataPage extends StatelessWidget {
   final LeadDataController controller = Get.put(LeadDataController());
+  DateTime? fromDate;
+  DateTime? toDate;
+
+  LeadDataPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchLeads(); // Ensure leads are fetched when the page loads
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            "Leads Page",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
-        ),
-      ),
+      appBar:CustomAppBar(title: 'Leads page',actions: [ IconButton(
+            icon: Icon(Icons.filter_list,color: white,),
+            onPressed: () => _showDateRangePicker(context),
+          ),],),
+      
       body: Obx(
         () {
           if (controller.isLoading.value) {
@@ -234,47 +238,89 @@ class LeadDataPage extends StatelessWidget {
           } else if (controller.errorMessage.isNotEmpty) {
             return Center(child: Text(controller.errorMessage.value));
           } else {
-            return ListView.builder(
-              itemCount: controller.leads.length,
-              itemBuilder: (context, index) {
-                final lead = controller.leads[index];
-                return Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8),
-                  child: CustomerCardWidget(
-                    name: lead['first_name'] ?? 'No name',
-                    address: lead['address'] ?? 'No address',
-                    phoneNumber: lead['phone'] ?? 'No phone',
-                    onCallPressed: () {
-                      // Implement call functionality
-                    },
-                    onCardTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => EnquiryDetailsPage(
-                            name: lead['first_name'] ?? 'No name',
-                            email: lead['email'] ?? 'No email',
-                            phone: lead['phone'] ?? 'No phone',
-                            address: lead['address'] ?? 'No address',
-                            enquiryAbout: lead['enquiry'] ?? 'N/A',
-                            foundThrough: lead['how_did_you_find_us'] ?? 'N/A',
-                            enquiryDate: DateTime.now(),
-                            onEdit: () {
-                              // Handle edit action
-                            },
-                            onContact: () {
-                              // Handle contact action
-                            },
+            final filteredLeads = _filterLeads(controller.leads);
+            return Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: ListView.builder(
+                itemCount: filteredLeads.length,
+                itemBuilder: (context, index) {
+                  final lead = filteredLeads[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: CustomerCardWidget(
+                      name: lead['first_name'] ?? 'No name',
+                      address: lead['address'] ?? 'No address',
+                      phoneNumber: lead['phone'] ?? 'No phone',
+                      onCallPressed: () {
+                        makeCall(lead['phone']);
+                      },
+                      onCardTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => EnquiryDetailsPage(
+                              name: lead['first_name'] ?? 'No name',
+                              email: lead['email'] ?? 'No email',
+                              phone: lead['phone'] ?? 'No phone',
+                              address: lead['address'] ?? 'No address',
+                              enquiryAbout: lead['enquiry'] ?? 'N/A',
+                              foundThrough: lead['how_did_you_find_us'] ?? 'N/A',
+                              enquiryDate: lead['created_at'],
+                              onEdit: () {
+                                // Handle edit action
+                              },
+                              onContact: () {
+                                makeCall(lead['phone']);
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             );
           }
         },
       ),
     );
+  }
+
+  void makeCall(String phoneNumber) async {
+    try {
+      await FlutterPhoneDirectCaller.callNumber(phoneNumber);
+    } catch (e) {
+      print('Error making call: $e');
+    }
+  }
+
+  void _showDateRangePicker(BuildContext context) async {
+    DateTimeRange? selectedDateRange = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      initialDateRange: fromDate != null && toDate != null
+          ? DateTimeRange(start: fromDate!, end: toDate!)
+          : null,
+    );
+
+    if (selectedDateRange != null) {
+      fromDate = selectedDateRange.start;
+      toDate = selectedDateRange.end;
+      // Optionally fetch leads again if necessary
+      controller.fetchLeads();
+    }
+  }
+
+  List<dynamic> _filterLeads(List<dynamic> leads) {
+    if (fromDate == null || toDate == null) {
+      return leads; // Return all leads if no date range is selected
+    }
+
+    // Filter leads based on enquiryDate
+    return leads.where((lead) {
+      DateTime enquiryDate = DateTime.parse(lead['created_at']);
+      return enquiryDate.isAfter(fromDate!.subtract(Duration(days: 1))) && enquiryDate.isBefore(toDate!.add(Duration(days: 1)));
+    }).toList();
   }
 }

@@ -217,6 +217,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -237,7 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 60),
                     Image.asset(
-                      'assets/images/elegant-logo-removebg-preview.png',
+                      'assets/images/elegentlogo.webp',
                       height: 100,
                     ),
                   ],
@@ -252,12 +253,21 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.grey[600],
                     fontStyle: FontStyle.normal,
                   ),
-                  fillColor: backgroundColorlightgrey,
+                  fillColor: backgroundColorlightgrey.withOpacity(0.7),
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
+                    borderSide: BorderSide(color: Colors.blue),
+                    
                   ),
+                   enabledBorder: OutlineInputBorder( // Border when not focused
+      borderRadius: BorderRadius.circular(8),
+      borderSide: BorderSide(color: Colors.grey[600]!),
+    ),
+    focusedBorder: OutlineInputBorder( // Border when focused
+      borderRadius: BorderRadius.circular(8),
+      borderSide: BorderSide(color: Colors.grey[600]!),
+    ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -276,12 +286,20 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.grey[600],
                     fontStyle: FontStyle.normal,
                   ),
-                  fillColor: backgroundColorlightgrey,
+                  fillColor: backgroundColorlightgrey.withOpacity(0.7),
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide.none,
+                    borderSide: BorderSide(color: Colors.black12),
                   ),
+                   enabledBorder: OutlineInputBorder( // Border when not focused
+      borderRadius: BorderRadius.circular(8),
+      borderSide: BorderSide(color: Colors.grey[600]!),
+    ),
+    focusedBorder: OutlineInputBorder( // Border when focused
+      borderRadius: BorderRadius.circular(8),
+      borderSide: BorderSide(color: Colors.grey[600]!),
+    ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword

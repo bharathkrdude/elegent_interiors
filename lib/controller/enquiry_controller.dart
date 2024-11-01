@@ -1,3 +1,5 @@
+import 'package:elegant_interiors/controller/leadcontroller.dart';
+import 'package:elegant_interiors/screens/widgets/success_page.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class EnquiryController extends GetxController {
+   final LeadDataController leadController = Get.put(LeadDataController());
   final formKey = GlobalKey<FormState>();
 
   var firstName = ''.obs;
@@ -43,7 +46,7 @@ class EnquiryController extends GetxController {
   // Submits the enquiry form
   Future<void> submitForm() async {
     if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+      formKey.currentState!.save();  // This will call the onSaved method in your text fields
 
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('auth_token') ?? '';
@@ -64,8 +67,12 @@ class EnquiryController extends GetxController {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data['status'] == true) {
+          // Clear the form fields after submission
+          leadController.fetchLeads();
+          clearFormFields();
+
           Get.snackbar('Success', 'Enquiry submitted successfully');
-          Get.back();  // Go back to the previous page
+          Get.to(SuccessPage());
         } else {
           Get.snackbar('Error', 'Submission failed: ${data['message']}');
         }
@@ -73,5 +80,16 @@ class EnquiryController extends GetxController {
         Get.snackbar('Error', 'Error: ${response.statusCode}');
       }
     }
+  }
+
+  // Method to clear form fields
+  void clearFormFields() {
+    firstName.value = '';
+    email.value = '';
+    phone.value = '';
+    address.value = '';
+    enquiryAbout.value = 'Kitchen Design'; // Reset to default value
+    howDidYouFindUs.value = 'Google'; // Reset to default value
+    formKey.currentState?.reset(); // Reset the form state
   }
 }

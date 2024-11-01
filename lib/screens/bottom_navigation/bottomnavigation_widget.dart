@@ -18,11 +18,12 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    Dashboard(),
+    DashboardPage(),
     EnquiryForm(),
     LeadsPage(),
+     QuotationScreen(),
     ProfilePage(),
-    QuotationScreen(),
+   
     // FormView()
   ];
 
@@ -70,7 +71,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.feedback_outlined),
-              label: 'Feedback',
+              label: 'Enquiry',
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -81,7 +82,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.support_agent_outlined),
-              label: '',
+              label: 'Quotation',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_2_outlined),
