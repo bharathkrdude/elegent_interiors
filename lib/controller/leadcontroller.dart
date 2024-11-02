@@ -1,71 +1,55 @@
-// // controllers/lead_controller.dart
-// import 'dart:convert';
-// import 'package:elegant_interiors/model/lead_response.dart';
-// import 'package:elegant_interiors/model/leads_model.dart';
-// import 'package:get/get.dart';
-// import 'package:http/http.dart' as http;
-
-// class LeadController extends GetxController {
-//   var leads = <LeadModel>[].obs;
-//   var isLoading = true.obs;
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     fetchLeads();
-//   }
-
-//   Future<void> fetchLeads() async {
-//     isLoading(true);
-//     try {
-//       var response = await http.get(
-//         Uri.parse('https://elegantinteriors.in/demo/api/v1/get-enquiry'),
-//       );
-
-//       if (response.statusCode == 200) {
-//         var jsonData = json.decode(response.body);
-//         LeadResponse leadResponse = LeadResponse.fromJson(jsonData);
-
-//         if (leadResponse.status) {
-//           leads.assignAll(leadResponse.leads);
-//         } else {
-//           print('Failed to fetch leads');
-//         }
-//       } else {
-//         print('Error: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       print('Error fetching leads: $e');
-//     } finally {
-//       isLoading(false);
-//     }
-//   }
-// }
-
-import 'package:elegant_interiors/screens/bottom_navigation/temp.dart';
+import 'package:elegant_interiors/screens/leads/leads_data_screen.dart';
 import 'package:get/get.dart';
 
 class LeadDataController extends GetxController {
-  var leads = <dynamic>[].obs;
+  var allLeads = <dynamic>[].obs; // Store all fetched leads
+  var displayedLeads = <dynamic>[].obs; // Store currently displayed leads
   var isLoading = false.obs;
   var errorMessage = ''.obs;
+  DateTime? fromDate;
+  DateTime? toDate;
 
   @override
   void onInit() {
     super.onInit();
-    fetchLeads();
+    fetchLeads(); // Fetch all leads initially
   }
 
   Future<void> fetchLeads() async {
     isLoading.value = true;
     errorMessage.value = '';
     try {
-      leads.value = await LeadsService.fetchLeads();
+      allLeads.value = await LeadsService.fetchLeads(); // Fetch all leads from API
+      updateDisplayedLeads(); // Update displayed leads
     } catch (e) {
       errorMessage.value = e.toString();
     } finally {
       isLoading.value = false;
     }
   }
+
+  void updateDisplayedLeads() {
+    // Filter leads based on date range
+    displayedLeads.value = filterLeads(allLeads);
+  }
+List<dynamic> filterLeads(List<dynamic> leads) {
+  if (fromDate == null || toDate == null) {
+    return leads; // Return all leads if no date range is selected
+  }
+
+  // Filter leads based on created_at date
+  return leads.where((lead) {
+    DateTime enquiryDate = DateTime.parse(lead['created_at']);
+    return enquiryDate.isAfter(fromDate!.subtract(Duration(days: 1))) && 
+           enquiryDate.isBefore(toDate!.add(Duration(days: 1)));
+  }).toList();
 }
 
+
+  // New method to reset filters
+  void resetFilters() {
+    fromDate = null; // Clear fromDate
+    toDate = null;   // Clear toDate
+    fetchLeads();    // Fetch all leads again
+  }
+}

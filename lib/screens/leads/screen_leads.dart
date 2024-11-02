@@ -83,6 +83,7 @@
 // screens/leads_page.dart
 import 'package:elegant_interiors/controller/leadcontroller.dart';
 import 'package:elegant_interiors/screens/bottom_navigation/temp.dart';
+import 'package:elegant_interiors/screens/leads/leads_data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
